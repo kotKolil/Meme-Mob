@@ -4,12 +4,33 @@ import cpw.mods.fml.common.Mod;
 public static MemeMob instance;
 @Mod (modid = "13.666.256", name="Meme Mob", version = "1.0");
 @EventHandler;
+class RenderWipe extends RenderBiped {
+private static final ResourceLocation textureLocation = new ResourceLocation("textures/entity/steve.png");
 
-class CommonProxy {
+public RenderTest(ModelBiped model, float shadowSize)
+{
+  super(model, shadowSize);
+}
+
+@Override
+protected ResourceLocation getEntityTexture(Entity par1Entity)
+{
+  return textureLocation;
+} 
 
 } 
+class CommonProxy {
+public void registerRenderers()
+{
+  // Здесь ничего, так как сервер не рендерит графику или существ!
+}
+} 
 class ClientProxy extends CommonProxy{
-
+@Override
+public void registerRenderers()
+{
+  RenderingRegistry.registerEntityRenderingHandler(WiPe.class, new RenderWipe(new ModelBiped(), 0.5F));
+}
 } 
 public void preLoad(FMLPreInitializationEvent event)
 {
@@ -35,4 +56,4 @@ public class WiPe extends EntityAnimal
   super(par1World);
   }
 }
-
+proxy.registerRenderers();
